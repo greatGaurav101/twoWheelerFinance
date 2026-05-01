@@ -1,4 +1,4 @@
-package com.rupyy.twf.dto;
+package com.rupyy1.dto;
 
 public class BikeModelDTO {
 

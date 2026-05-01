@@ -1,4 +1,4 @@
-package com.rupyy.twf.entity;
+package com.rupyy1.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,22 +6,24 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Getter @Setter
 @Entity
-@Table(name = "bike_makes")
-public class BikeMake {
+@Table(name = "bike_models")
+public class BikeModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "make_id",unique = true,nullable = true)
-    private int makeId;
+    @Column(name = "model_id" , unique = true, nullable = false)
+    private int modelId;
 
-    private String makeName;
-    private int popularity;
-    private String makeImage;
+    @Column(name = "model_name")
+    private String modelName;
+
+    @ManyToOne
+    @JoinColumn(name = "make_id")
+    private BikeMake make1;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
