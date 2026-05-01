@@ -21,7 +21,7 @@ public class CustomerController {
     //http://localhost:8085/api/v1/customer/saveCustomer
     @PostMapping("/saveCustomer")
     public ResponseEntity<APIResponseDTO<?>> createCustomer(
-            @RequestBody CustomerRequestDTO customerRequestDTO){
+            @RequestBody CustomerRequestDTO customerRequestDTO) {
 
         APIResponseDTO responseDTO = customerService.createCustomer(customerRequestDTO);
 
@@ -30,7 +30,7 @@ public class CustomerController {
         response.setStatusCode(201);
         response.setId(responseDTO.getId());
         response.setLeadsId(responseDTO.getLeadsId());
-      //  response.setData(responseDTO);
+        //  response.setData(responseDTO);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

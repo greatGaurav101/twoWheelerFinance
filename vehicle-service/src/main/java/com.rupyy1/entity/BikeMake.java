@@ -1,5 +1,6 @@
 package com.rupyy1.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +25,8 @@ public class BikeMake {
     private int popularity;
     private String makeImage;
 
-    @OneToMany(mappedBy = "make1" , cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "make1" , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<BikeModel> bikeModels;
 
     @Column(name = "created_at", updatable = false)

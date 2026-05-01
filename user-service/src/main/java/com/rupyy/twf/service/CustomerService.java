@@ -1,5 +1,6 @@
 package com.rupyy.twf.service;
 
+import com.rupyy.twf.controller.utils.EmailSender;
 import com.rupyy.twf.dto.CustomerRequestDTO;
 import com.rupyy.twf.dto.APIResponseDTO;
 import com.rupyy.twf.entity.Customer;
@@ -13,14 +14,22 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public APIResponseDTO createCustomer(CustomerRequestDTO customerRequestDTO){
+    @Autowired
+    private EmailSender emailSender;
+
+    public APIResponseDTO createCustomer(CustomerRequestDTO customerRequestDTO) {
 
         Customer customerEntity = new Customer();
-        BeanUtils.copyProperties(customerRequestDTO,customerEntity);
+        BeanUtils.copyProperties(customerRequestDTO, customerEntity);
         Customer savedCustomer = customerRepository.save(customerEntity);
 
+//        to send email notification once lead is created
+        emailSender.sendEmail("amitranjan876@gmail.com",
+                "User created",
+                "Hello How are you!");
+
         APIResponseDTO<Object> CustomerResponseDTO = new APIResponseDTO<>();
-        BeanUtils.copyProperties(savedCustomer,CustomerResponseDTO);
+        BeanUtils.copyProperties(savedCustomer, CustomerResponseDTO);
 
         return CustomerResponseDTO;
     }

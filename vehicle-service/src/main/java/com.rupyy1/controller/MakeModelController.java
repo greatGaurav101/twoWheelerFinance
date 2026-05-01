@@ -34,11 +34,11 @@ public class MakeModelController {
     }
     //http://localhost:8086/api/v1/mmv/get
     @GetMapping("/get")
-    public ResponseEntity<APIResponseDTO1<?>> getMMVdetails(@RequestParam Integer id){
+    public ResponseEntity<APIResponseDTO1<BikeMakeDTO>> getMMVdetails(@RequestParam Integer id){
 
         BikeMakeDTO BikeMakeDTO = makeModelService.getMMVDetails(id);
 
-        APIResponseDTO1<Object> getResponse = new APIResponseDTO1<>();
+        APIResponseDTO1<BikeMakeDTO> getResponse = new APIResponseDTO1<>();
         getResponse.setStatusCode(200);
         getResponse.setMessage("MMV details fetched successfully");
         getResponse.setData(BikeMakeDTO);

@@ -1,5 +1,6 @@
 package com.rupyy1.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class BikeModel {
 
     @ManyToOne
     @JoinColumn(name = "make_id")
+    @JsonBackReference
     private BikeMake make1;
 
     @Column(name = "created_at", updatable = false)
