@@ -29,14 +29,16 @@ public class CustomerService {
         Customer customerEntity = new Customer();
         BeanUtils.copyProperties(customerRequestDTO, customerEntity);
         Customer savedCustomer = customerRepository.save(customerEntity);
+        ;
 
-//        to send email notification once lead is created
+        //  to send email notification once lead is created
         emailSender.sendEmail("amitranjan876@gmail.com",
-                "User created",
-                "Hello How are you!");
+                "User/Lead created",
+                "Greetings : lead id created with leadId:" + savedCustomer.getId() + savedCustomer.getName());
 
-//        to send whatsapp notification
-      // whatsappService.sendWhatsAppMessage("+918448055679","Hello");
+        //  to send whatsapp notification after lead is created
+        whatsappService.sendWhatsAppMessage("+918448055679",
+                "Dear Customer,your lead id created with leadId:" + savedCustomer.getId()+savedCustomer.getName());
 
         // to send cron
         userScheduler.sendScheduledLeads();

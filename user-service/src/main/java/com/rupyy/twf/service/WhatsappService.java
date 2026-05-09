@@ -15,8 +15,9 @@ public class WhatsappService {
     public String sendWhatsAppMessage(String to,String body){
         Message message = Message.creator(
                 new PhoneNumber("whatsapp:" + to),
-                new PhoneNumber(twilioConfig.getFromWhatsappNumber()),
-                body).create();
+                new PhoneNumber("whatsapp:" + twilioConfig.getFromWhatsappNumber()),
+                body)
+               .create();
 
         return "Message sent,STD: " + message.getAccountSid();
 
