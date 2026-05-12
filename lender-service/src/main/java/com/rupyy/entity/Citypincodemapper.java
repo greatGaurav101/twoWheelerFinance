@@ -1,36 +1,39 @@
-package com.rupyy1.entity;
+package com.rupyy.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "bike_variants", schema = "mmv-db")
-public class BikeVariant {
+@Table(name = "citypincodemapper", schema = "lender-db")
+public class Citypincodemapper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "variant_id", nullable = false, length = 45)
-    private String variantId;
+    @Column(name = "city_id", nullable = false)
+    private Integer cityId;
 
-    @Column(name = "variant_name", length = 45)
-    private String variantName;
+    @Column(name = "city_name", nullable = false, length = 45)
+    private String cityName;
 
-    @Column(name = "created_at", length = 45)
+    @Column(name = "pincode", nullable = false, length = 45)
+    private String pincode;
+
+    @Column(name = "deleted")
+    private Integer deleted;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", length = 45)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "model_id", nullable = false)
-    private BikeModel model;
 
     @PrePersist
     protected void onCreate() {
@@ -42,5 +45,4 @@ public class BikeVariant {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }
