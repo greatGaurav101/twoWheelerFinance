@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,8 +24,13 @@ public class Citypincodemapper {
     @Column(name = "city_name", nullable = false, length = 45)
     private String cityName;
 
-    @Column(name = "pincode", nullable = false, length = 45)
+    @Column(name = "pincode",unique = true,nullable = false, length = 45)
     private String pincode;
+
+    //unidirectional mapping
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mapper_pincode" , referencedColumnName = "pincode")//FK
+    private List<Dealer> dealers;
 
     @Column(name = "deleted")
     private Integer deleted;

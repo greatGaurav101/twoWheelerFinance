@@ -33,6 +33,13 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.rupyy</groupId>
+			<artifactId>customer-events</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>

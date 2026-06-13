@@ -1,5 +1,6 @@
 package com.rupyy.user.service;
 
+import com.rupyy.customer_events.data.CustomerCreatedEvent;
 import com.rupyy.user.constants.AppConstants;
 import com.rupyy.user.controller.utils.EmailSender;
 import com.rupyy.user.dto.CustomerRequestDTO;
@@ -11,6 +12,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class CustomerService {
@@ -49,7 +52,14 @@ public class CustomerService {
         userScheduler.sendScheduledLeads();
 
         //send message to kafka Topic
-        kafkaTemplate.send(AppConstants.TOPIC,customerRequestDTO);
+
+        CustomerCreatedEvent createdEvent = new CustomerCreatedEvent();
+        createdEvent.setName(customerRequestDTO.getName());
+        createdEvent.setEmail(customerRequestDTO.getEmail());
+        createdEvent.setMobile(customerRequestDTO.getMobile());
+        createdEvent.setPanNumber(customerRequestDTO.getPanNumber());
+
+        kafkaTemplate.send(AppConstants.TOPIC,createdEvent);
 
         APIResponseDTO<Object> CustomerResponseDTO = new APIResponseDTO<>();
         BeanUtils.copyProperties(savedCustomer, CustomerResponseDTO);
@@ -57,5 +67,21 @@ public class CustomerService {
         return CustomerResponseDTO;
     }
 
+    public Customer getUserDetails(UUID id) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(id);
+        Customer fetchedCustomerDetails = optionalCustomer.get();
+        return fetchedCustomerDetails;
+    }
 
+    public List<UUID> getUserId() {
+        List<Customer> all = customerRepository.findAll();
+
+        List<UUID> st = new ArrayList<>();
+
+        for(Customer cust :all){
+            st.add(cust.getId());
+
+        }
+        return st;
+    }
 }

@@ -1,6 +1,8 @@
 package com.rupyy.user.config;
 
+import com.rupyy.customer_events.data.CustomerCreatedEvent;
 import com.rupyy.user.constants.AppConstants;
+import com.rupyy.user.dto.CustomerRequestDTO;
 import com.rupyy.user.entity.Customer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -19,7 +21,7 @@ import java.util.Map;
 public class KafkaProducerConfig {
 
     @Bean
-    public ProducerFactory<String, Customer> producerFactory(){  //built-in classes from kafa
+    public ProducerFactory<String, CustomerCreatedEvent> producerFactory(){  //built-in classes from kafa
 
         Map<String, Object> KafkaProperties = new HashMap<>();
         KafkaProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, AppConstants.KAFKA_HOST);
@@ -31,7 +33,7 @@ public class KafkaProducerConfig {
 
     //this bean has the details i.e to which kafka url i have to connect as it contains producerFactory
     @Bean
-    public KafkaTemplate<String, Customer> kafkaTemplate() {
+    public KafkaTemplate<String, CustomerCreatedEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

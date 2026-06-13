@@ -1,16 +1,14 @@
 package com.rupyy.lender.config;
 
 import com.rupyy.lender.constants.AppConstants;
-import com.rupyy.lender.entity.Customer;
+import com.rupyy.lender.dto.CustomerRequestDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
@@ -20,22 +18,29 @@ import java.util.Map;
 public class KafkaConsumerConfig {
 
     @Bean
-   public ConsumerFactory<String, Customer> consumerFactory(){  //built-in classes from kafa
+   public ConsumerFactory<String, CustomerRequestDTO> consumerFactory(){  //built-in classes from kafa
+
+        JsonDeserializer<CustomerRequestDTO> deserializer =
+                new JsonDeserializer<>(CustomerRequestDTO.class);
+
+        deserializer.addTrustedPackages("*");
 
        Map<String, Object> KafkaProperties = new HashMap<>();
        KafkaProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, AppConstants.KAFKA_HOST);
        KafkaProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
        KafkaProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
-       return new DefaultKafkaConsumerFactory<>(KafkaProperties);
+       return new DefaultKafkaConsumerFactory<>(KafkaProperties,
+                                               new StringDeserializer(),
+                                               deserializer);
    }
 
    //this bean has the details i.e to which kafka url i have to connect as it contains producerFactory
    @Bean
-   public ConcurrentKafkaListenerContainerFactory<String, Customer>
+   public ConcurrentKafkaListenerContainerFactory<String, CustomerRequestDTO>
    kafkaListenerContainerFactory() {
 
-       ConcurrentKafkaListenerContainerFactory<String, Customer> factory =
+       ConcurrentKafkaListenerContainerFactory<String, CustomerRequestDTO> factory =
                new ConcurrentKafkaListenerContainerFactory<>();
 
        factory.setConsumerFactory(consumerFactory());

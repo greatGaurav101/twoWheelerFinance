@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableScheduling
-public class UserServiceApplication {
+public class UserServiceApplication {  //Bootstarping class
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserServiceApplication.class, args);

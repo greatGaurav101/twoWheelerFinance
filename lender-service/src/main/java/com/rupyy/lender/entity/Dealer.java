@@ -29,9 +29,9 @@ public class Dealer {
     @Column(name = "dealer_make", length = 45)
     private String dealerMake;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mapper_pincode", referencedColumnName = "pincode")
-    private Citypincodemapper mapperPincode;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "mapper_pincode", referencedColumnName = "pincode")
+    //private Citypincodemapper mapperPincode;
 
 
 }
