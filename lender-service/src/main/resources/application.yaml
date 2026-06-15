@@ -1,0 +1,15 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: lender-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/lender-db
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
