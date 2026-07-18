@@ -19,6 +19,8 @@ public class CustomerController {
     @Autowired
     public CustomerService customerService;
 
+    /** this will save a new customer in database customer table
+    also when a new customer will be created an email,WhatsApp notification will be sent to the customer*/
     //http://localhost:8085/api/v1/customer/saveCustomer
     @PostMapping("/saveCustomer")
     public ResponseEntity<APIResponseDTO<?>> createCustomer(
@@ -36,11 +38,12 @@ public class CustomerController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    //this will return all existing user from database
     @GetMapping("/get")
-    String getUserId(){
-        List<UUID> userId = customerService.getUserId();
-        System.out.println(userId);
-        return null;
+    ResponseEntity<List<Customer>> getAllUsers(){
+        List<Customer> userId = customerService.getAllUsers();
+       // System.out.println(userId);
+        return new ResponseEntity<>(userId,HttpStatus.OK);
     }
 
     /* to get user by id(UUID) */
@@ -50,5 +53,21 @@ public class CustomerController {
         Customer userDetails = customerService.getUserDetails(id);
         return userDetails;
     }
+
+    @GetMapping("/getuserbymobile")
+    ResponseEntity<Customer> getUserDetailsByMobilenumber(String mobile){
+        Customer userDetails = customerService.getUserDetailsByMobilenumber(mobile);
+
+        return new ResponseEntity<>(userDetails,HttpStatus.OK);
+
+    }
+
+    @GetMapping("/getbyname")
+    ResponseEntity<?> getUserDetailsByFirstname(String firstName){ //ResponseEntity is used for controller method return type
+        List<Object> userDetailsByFirstname = customerService.getUserDetailsByFirstname(firstName);
+
+        return new ResponseEntity<>(userDetailsByFirstname,HttpStatus.OK);
+    }
+
 
 }

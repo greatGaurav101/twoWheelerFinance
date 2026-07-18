@@ -38,21 +38,21 @@ public class Customer {
     @Column(name = "last_name")
     private String lastName;
 
-    /** Encrypted mobile number */
-    @Column(name = "mobile")
+    /** PII : Encrypted mobile number */
+    @Column(name = "mobile",unique = true)
     private String mobile;
 
     @Column(name = "dob")
     private LocalDate dob;
 
-    /** Encrypted PAN number */
+    /**PII :  Encrypted PAN number */
     @Column(name = "pan_number")
     private String panNumber;
 
     @Column(name = "father_name")
     private String fatherName;
 
-    /** Encrypted email */
+    /**PII :  Encrypted email */
     @Column(name = "email")
     private String email;
 

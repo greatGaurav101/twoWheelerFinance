@@ -6,6 +6,8 @@ import com.rupyy.user.controller.utils.EmailSender;
 import com.rupyy.user.dto.CustomerRequestDTO;
 import com.rupyy.user.dto.APIResponseDTO;
 import com.rupyy.user.entity.Customer;
+import com.rupyy.user.exception.NotAnyUserFoundException;
+import com.rupyy.user.exception.UserNotFoundException;
 import com.rupyy.user.repository.CustomerRepository;
 import com.rupyy.user.scheduler.UserScheduler;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +35,8 @@ public class CustomerService {
     private KafkaTemplate kafkaTemplate;//when DI will happen this reference will have all the details present in hashmap i.e
     //to access kafka what url i have to use.
 
+    /** this will save a new customer in database customer table
+    also when a new customer will be created an email,whatsapp notification will be sent to the customer*/
     public APIResponseDTO createCustomer(CustomerRequestDTO customerRequestDTO) {
 
         Customer customerEntity = new Customer();
@@ -67,21 +71,48 @@ public class CustomerService {
         return CustomerResponseDTO;
     }
 
+    /* to get user by id(UUID) */
     public Customer getUserDetails(UUID id) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(id);
-        Customer fetchedCustomerDetails = optionalCustomer.get();
-        return fetchedCustomerDetails;
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("user doesn't exists!"));
+
+        //Customer fetchedCustomerDetails = optionalCustomer.get();
+        return customer;
     }
 
-    public List<UUID> getUserId() {
-        List<Customer> all = customerRepository.findAll();
+    //this will return all existing user from database
+    public List<Customer> getAllUsers() {
+        List<Customer> customerList = customerRepository.findAll();
 
-        List<UUID> st = new ArrayList<>();
 
-        for(Customer cust :all){
-            st.add(cust.getId());
+        //.orElseThrow(() -> new NoUserFoundException("no user exists !"));
+
+        List<Customer> st = new ArrayList<>();
+
+        for(Customer cust :customerList){
+           // st.add(cust.getId());
 
         }
-        return st;
+        return customerList;
+    }
+
+    public Customer getUserDetailsByMobilenumber(String mobile) {
+       Customer customer = customerRepository.findByMobile(mobile)
+                .orElseThrow(()-> new NotAnyUserFoundException("User with given mobile no doesn't exists!"));
+       
+       return  customer;
+    }
+
+    public List<Object> getUserDetailsByFirstname(String firstName) {
+        List<Object> user = new ArrayList<>();
+        Iterable<Customer> cust = customerRepository.findByFirstName(firstName);
+        for (Customer customer : cust) {
+            user.add(customer.getName());
+            user.add(customer.getMobile());
+            user.add(customer.getEmail());
+        }
+
+        return user;
+
     }
 }
