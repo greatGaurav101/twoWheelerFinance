@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: vehicle-service
+
+---
+spring:
+  datasource:
+    url: jdbc:mysql://my-instance-db.c1uy0asw4jjz.ap-south-1.rds.amazonaws.com:3306/mmv-db
+    username: admin
+    password: rootpassword
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+server:
+  port: 8087
+
+
