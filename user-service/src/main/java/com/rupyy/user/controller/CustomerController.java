@@ -4,6 +4,7 @@ import com.rupyy.user.dto.CustomerRequestDTO;
 import com.rupyy.user.dto.APIResponseDTO;
 import com.rupyy.user.entity.Customer;
 import com.rupyy.user.service.CustomerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/customer")
+@Slf4j
 public class CustomerController {
 
     @Autowired
@@ -26,6 +28,11 @@ public class CustomerController {
     public ResponseEntity<APIResponseDTO<?>> createCustomer(
             @RequestBody CustomerRequestDTO customerRequestDTO) {
 
+        log.info("=> Received POST request to create a new customer.");
+        // IMPORTANT: Avoiding logging the entire requestDTO at INFO level in production
+        // if it contains sensitive data (PII). Use DEBUG or TRACE if needed.
+        log.debug("Request body: {}", customerRequestDTO);
+
         APIResponseDTO responseDTO = customerService.createCustomer(customerRequestDTO);
 
         APIResponseDTO<Object> response = new APIResponseDTO<>();
@@ -35,6 +42,7 @@ public class CustomerController {
         response.setLeadsId(responseDTO.getLeadsId());
         //  response.setData(responseDTO);
 
+        log.info("<= Responded to create customer request with customer ID: {}", response.getId());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

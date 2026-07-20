@@ -1,6 +1,6 @@
 package com.rupyy.user.scheduler;
 
-import com.rupyy.user.controller.utils.EmailSender;
+import com.rupyy.user.utils.EmailSender;
 import com.rupyy.user.entity.Customer;
 import com.rupyy.user.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;

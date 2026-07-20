@@ -19,10 +19,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(nur.getMessage(),HttpStatus.NOT_FOUND);
     }
 
-
     @ExceptionHandler(Exception.class)
     ResponseEntity handleAllException(Exception ex){
         return new ResponseEntity(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(EmailSentFailException.class)
+    ResponseEntity handleEmailSentFailException(EmailSentFailException eml){
+        return new ResponseEntity(eml.getMessage(),HttpStatus.NO_CONTENT);
     }
 
 }
