@@ -45,13 +45,13 @@ public class CustomerController {
         log.info("<= Responded to create customer request with customer ID: {}", response.getId());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
+    //http://localhost:8085//api/v1/customer/get
     //this will return all existing user from database
     @GetMapping("/get")
     ResponseEntity<List<Customer>> getAllUsers(){
-        List<Customer> userId = customerService.getAllUsers();
+        List<Customer> usersList = customerService.getAllUsers();
        // System.out.println(userId);
-        return new ResponseEntity<>(userId,HttpStatus.OK);
+        return new ResponseEntity<>(usersList,HttpStatus.OK);
     }
 
     /* to get user by id(UUID) */

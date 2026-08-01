@@ -17,6 +17,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -104,6 +105,11 @@ public class CustomerService {
     //this will return all existing user from database
     public List<Customer> getAllUsers() {
         List<Customer> customerList = customerRepository.findAll();
+        log.info("getAllUsers: called repository to fetch all users details");
+
+        for (Customer lst : customerList) {
+            log.debug("Customer list :- {} "+ lst.getId());
+        }
 
 
         //.orElseThrow(() -> new NoUserFoundException("no user exists !"));
