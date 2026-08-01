@@ -7,6 +7,7 @@ import com.rupyy.vehicle.repository.BikeMakeRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +17,9 @@ public class MakeModelService {
 
     @Autowired
     private BikeMakeRepository makeRepository;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     public BikeMakeDTO createMakeModel(BikeMakeDTO makeDTO){
 
@@ -49,6 +53,14 @@ public class MakeModelService {
 
 
         return bikeMakeDTO;
+
+    }
+
+    public void testSendmail(){
+        redisTemplate.opsForValue().set("email","amit.mail@gmail.com");
+
+        Object email = redisTemplate.opsForValue().get("email");
+        System.out.println(email);
 
     }
 }
