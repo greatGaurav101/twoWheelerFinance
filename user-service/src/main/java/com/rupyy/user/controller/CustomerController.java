@@ -55,7 +55,7 @@ public class CustomerController {
     }
 
     @GetMapping("/getuserbymobile")
-    ResponseEntity<Customer> getUserDetailsByMobilenumber(String mobile){
+    ResponseEntity<Customer> getUserDetailsByMobilenumber(@RequestParam String mobile){
         Customer userDetails = customerService.getUserDetailsByMobilenumber(mobile);
 
         return new ResponseEntity<>(userDetails,HttpStatus.OK);
