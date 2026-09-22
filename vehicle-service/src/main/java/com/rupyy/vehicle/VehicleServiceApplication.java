@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableCaching
 public class VehicleServiceApplication {
 
 	public static void main(String[] args) {

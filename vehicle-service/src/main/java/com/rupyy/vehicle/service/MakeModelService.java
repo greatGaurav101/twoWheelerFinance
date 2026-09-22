@@ -7,7 +7,6 @@ import com.rupyy.vehicle.repository.BikeMakeRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,7 +18,7 @@ public class MakeModelService {
     private BikeMakeRepository makeRepository;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisService redisService;
 
     public BikeMakeDTO createMakeModel(BikeMakeDTO makeDTO){
 
@@ -42,25 +41,16 @@ public class MakeModelService {
         return makeDTO1;
     }
 
-    @Cacheable(value = "mmvDetails", key = "#id")
+   // @Cacheable(value = "mmvDetails", key = "#id")
     public BikeMakeDTO getMMVDetails(Integer id) {
 
-        Optional<BikeMake> details = makeRepository.findById(id);
-        BikeMake bikeMake = details.get();
 
-        BikeMakeDTO bikeMakeDTO = new BikeMakeDTO();
-        BeanUtils.copyProperties(bikeMake,bikeMakeDTO);
+            Optional<BikeMake> details = makeRepository.findById(id);
+            BikeMake bikeMake = details.get();
 
+            BikeMakeDTO bikeMakeDTO = new BikeMakeDTO();
+            BeanUtils.copyProperties(bikeMake,bikeMakeDTO);
 
-        return bikeMakeDTO;
-
-    }
-
-    public void testSendmail(){
-        redisTemplate.opsForValue().set("email","amit.mail@gmail.com");
-
-        Object email = redisTemplate.opsForValue().get("email");
-        System.out.println(email);
-
+            return bikeMakeDTO;
     }
 }
