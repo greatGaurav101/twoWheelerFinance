@@ -17,6 +17,9 @@ public class MakeModelService {
     @Autowired
     private BikeMakeRepository makeRepository;
 
+    @Autowired
+    private RedisService redisService;
+
     public BikeMakeDTO createMakeModel(BikeMakeDTO makeDTO){
 
         BikeMake bikemake = new BikeMake();
@@ -38,17 +41,16 @@ public class MakeModelService {
         return makeDTO1;
     }
 
-    @Cacheable(value = "mmvDetails", key = "#id")
+   // @Cacheable(value = "mmvDetails", key = "#id")
     public BikeMakeDTO getMMVDetails(Integer id) {
 
-        Optional<BikeMake> details = makeRepository.findById(id);
-        BikeMake bikeMake = details.get();
 
-        BikeMakeDTO bikeMakeDTO = new BikeMakeDTO();
-        BeanUtils.copyProperties(bikeMake,bikeMakeDTO);
+            Optional<BikeMake> details = makeRepository.findById(id);
+            BikeMake bikeMake = details.get();
 
+            BikeMakeDTO bikeMakeDTO = new BikeMakeDTO();
+            BeanUtils.copyProperties(bikeMake,bikeMakeDTO);
 
-        return bikeMakeDTO;
-
+            return bikeMakeDTO;
     }
 }
