@@ -4,4 +4,5 @@ import com.rupyy.authentication_service.entity.SignUpUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RegisterRepository extends JpaRepository<SignUpUser,Long> {
+    SignUpUser findByEmail(String email);
 }

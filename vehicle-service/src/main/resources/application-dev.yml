@@ -21,9 +21,9 @@ spring:
       client:
         url: http://localhost:9090
 
-  redis:
-    host: ec2-13-201-22-81.ap-south-1.compute.amazonaws.com
-    port: 6379
+#  redis:
+#    host: ec2-13-201-22-81.ap-south-1.compute.amazonaws.com
+#    port: 6379
 
 server:
   port: 8086
